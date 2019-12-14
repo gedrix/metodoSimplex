@@ -1,1 +1,2 @@
 El trabajo pertenece al estudiante Gerardo Ramirez
+comit del 14/12/19 en el ejercicio ya permite agregar N variables asi mismo como N restricciones, posteriormente ya estandariza
