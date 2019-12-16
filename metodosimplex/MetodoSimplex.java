@@ -7,6 +7,7 @@ package metodosimplex;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -251,7 +252,6 @@ public class MetodoSimplex {
     {
         double comparacion = 0d;
         int indice = 0;
-        boolean verificarcolumna = false;
         //obtener el numero negativo de la funcion objetiva
         for (int i = 0; i < valoresOR.get(0).Valorx.size(); i++) 
         {
@@ -261,6 +261,7 @@ public class MetodoSimplex {
                 indice = i; //otenemos el indice para saber en que posicion
             }
         }
+
         double razon = 0d;
         int auxIndice = 0;
         double auxComparacion=100;
@@ -272,37 +273,61 @@ public class MetodoSimplex {
             { // solo si es positivo
                 razon = valoresOR.get(j).TerminoInde / valoresOR.get(j).Valorx.get(indice);
                 System.out.println("razón ecuación ("+"E" + j + ") es: " + razon);
-                if (razon < comparacion) 
+                if (razon < auxComparacion) 
                 {
-                    comparacion = razon;
+                    auxComparacion = razon;
                     auxIndice = j;
                 }
                 //System.out.println("valor auxIndice  "+auxIndice);
             }
         }
+        //si la razon es diferente de cero es xq se encontró al menos un positivo
+        //en esa X 
+        if (razon != 0d) 
+        {
+            valoresOR.get(auxIndice).pivote = indice;
+            System.out.println("Pivote esta en: X" + (indice + 1)+ "  en la ecuación E:(" + auxIndice + ")");
+        }
         
+        //cuando existe dos -3 y en el primero que se encontro todos
+        //son negativos entoncs va tomar el segundo -3
         if (razon == 0d) 
+        {          
+            double comparacion2 = 0d;
+            int indice2 = 0;
+            double razon2 = 0d;
+            int auxIndice2 = 0;
+            double auxComparacion2 = 100;
+            int auxindiceF = indice +1;
+            for (int i = auxindiceF; i < valoresOR.get(0).Valorx.size(); i++) 
             {
-                verificarcolumna = true;
+                //compara si existe otro valor igual al anterior
+                if (Objects.equals(valoresOR.get(0).Valorx.get(i), valoresOR.get(0).Valorx.get(indice)) ) 
+                {
+                    indice2 = i;
+            
+                    comparacion2 = valoresOR.get(0).Valorx.get(i); //se guarda el valor es decir 3X3 se toma solo 3
+                    indice2 = i; //otenemos el indice para saber en que posicion
+                    //voy a recorrerar las restricciones con el fin de obtener el valor de la razon
+                    //y el indice donde se ubica
+                }
             }
-//        System.out.println(auxIndice);
-//        System.out.println(indice);
 
-        //asigno el nuevo pivote tomando en cuenta la posicion de la resitrccion y 
-        //y el indice de funcion objetiva
-        valoresOR.get(auxIndice).pivote = indice;
-        
-//        System.out.println("-----");
-//        for (int i = 0; i < valoresOR.size(); i++) {
-//            System.out.println(valoresOR.get(i).pivote);
-//        }
-
-       // System.out.println("--------------");
-        System.out.println("Pivote esta en: X" + (indice + 1)+ "  en la ecuación E:(" + auxIndice + ")");
-//        int[] array = new int[2];
-//        array[0] = indice;
-//        array[1] = auxIndice;
-//        return array;
-        
+                for (int j = 1; j < valoresOR.size(); j++) 
+                { //indice es el valor que se obtuvo en el for de arriba
+                    if (valoresOR.get(j).Valorx.get(indice2) > 0) { // solo si es positivo
+                        razon2 = valoresOR.get(j).TerminoInde / valoresOR.get(j).Valorx.get(indice2);
+                        System.out.println("razón ecuación (" + "E" + j + ") es: " + razon2);
+                        if (razon2 < auxComparacion2) {
+                            auxComparacion2 = razon2;
+                            auxIndice2 = j;
+                        }
+                        //System.out.println("valor auxIndice  "+auxIndice);
+                    }
+                }
+                valoresOR.get(auxIndice2).pivote = indice2;
+                System.out.println("Pivote esta en: X" + (indice2 + 1) + "  en la ecuación E:(" + auxIndice2 + ")");
+            
+        }
     }
 }
