@@ -1,2 +1,9 @@
 El trabajo pertenece al estudiante Gerardo Ramirez
 comit del 14/12/19 en el ejercicio ya permite agregar N variables asi mismo como N restricciones, posteriormente ya estandariza
+
+comit 15/12/19, se puede seleccionar el pivote donde se encuentra en la posicion de la funcion objetivo como la posicion de la restriccion. ejemplo
+x4	3	2	0	60
+x5	-1	1	4	10 
+z	-2	-3	-3
+ el menor valor -3 obtiene la posicion donde esta el -3, que es (2) luego con es posicion pregunta si los valores de esa columna que no hayan negativos, luego divide el 60/2 
+y ese seria el pivote porque en la siguiente restriccion es negativa y la descarta
