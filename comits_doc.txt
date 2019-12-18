@@ -16,3 +16,8 @@ X4	-1.0	4.0	1.0	1.0	0.0	60.0
 X5	1.0	4.0	1.0	0.0	1.0	10.0
 Z	-2.0	-3.0	-3.0	0.0	0.0	0.0
 cuanto tenga -3 pregunto si en x2 existe al menos un positivo para sacar la razon, caso contrario paso al siuginete -3 para sacar la razon caso contrario termina el ejercicio
+
+comit 18/12/19
+ya resuelve ejercicios de maximizacion y minimizacion
+falta correguir pequeños errores de mensajes
+y a la funcion objetiva darle una igualdad para los casos de ejercicios que la funcion objetia tenga un numero mayor a 0

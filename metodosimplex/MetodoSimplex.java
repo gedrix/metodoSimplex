@@ -37,6 +37,12 @@ public class MetodoSimplex {
             X++;
         }
         valoresOR.add(funcionObjetiva);
+//        double terminoFO;
+//        System.out.println("termino idependiente");
+//        terminoFO = leer.nextDouble();
+//        funcionObjetiva.TerminoInde = terminoFO;
+        
+        
 
         //lleno el array list de las restricciones
         System.out.println("\n ingrese el numero de restricciones:");
@@ -75,12 +81,15 @@ public class MetodoSimplex {
         int opcionMN;
         opcionMN = leer.nextInt();
         estandarizarFunciones(opcionMN);
-
         //presntar la tabla
         presentarTabla();
-        pivoteo();
+    //    pivoteo();
         //resolverSimplex();
-
+//        int[] array = pivoteo();
+//        for (int i = 0; i < array.length; i++) {
+//        System.out.println(array[i]);
+//        }
+        resolverSimplex();
     }
 
     public static void FuncionOR() {
@@ -226,32 +235,97 @@ public class MetodoSimplex {
 
     public static void resolverSimplex() {
         boolean valorVerificar = false;
+        //int cont =1;
         //verifico que la ecuacion objetiva no hayan valores -0
         for (int i = 0; i < valoresOR.get(0).Valorx.size(); i++) 
         {
             //si es menor a 0 el boolean es true para seguir resolviendo
             if (valoresOR.get(0).Valorx.get(i) < 0) 
             {
+//                System.out.println(valoresOR.get(0).Valorx.get(i));
                 valorVerificar = true;
+//                System.out.println(valorVerificar);
+                break;
             }
+             valorVerificar = false;
             //si es false el programa acaba
-            if (valoresOR.get(0).Valorx.get(i) > 0) 
+//            if (valoresOR.get(0).Valorx.get(i) > 0) 
+//            {
+//                cont++; //cuento que todos los valores de la ecuacion sea positivos
+//            }
+        }
+        //si contador es igual tamaño la funcion objetiva es decir que todos son positivos
+        //cambia el valoVerificar a false y termina el ejercicio
+//        if (cont == valoresOR.get(0).Valorx.size()) {
+//            valorVerificar = false;
+//        }
+        //System.out.println("el valor de boolean es "+ valorVerificar);
+        while (valorVerificar == true) 
+        { 
+            int[] array = pivoteo();
+            if (array[0]== 123456789) 
             {
-                valorVerificar = false;
-            }
-        }
-        while (valorVerificar) 
-        {
+                break;
+            }else{
+                // ejm pregunto si el valor de 2X2 es diferente de 1, en caso de ser diferente
+                //lo igualo a 1 diviendiendo toda ecuacion para el temrino de 2X2
+                double division =0d;
+                if (valoresOR.get(array[1]).Valorx.get(array[0]) != 1) 
+                {
+                    //guardamos el valor de la posicion donde se ubica el pivte
+                    //ejm 2x2
+                    division = valoresOR.get(array[1]).Valorx.get(array[0]);
+                    //el termino independiente lo divido para el valor de division
+                    valoresOR.get(array[1]).TerminoInde = valoresOR.get(array[1]).TerminoInde / division;
+                    //voy diviendo los valores antes del igual
+                    for (int i = 0; i < valoresOR.get(array[1]).Valorx.size(); i++) 
+                    {
+                        valoresOR.get(array[1]).Valorx.set(i, valoresOR.get(array[1]).Valorx.get(i) / division);
+                    }
+                }
 
-            resolverSimplex();
+                for (int i = 0; i < valoresOR.size(); i++) { // recorre todas las ecuaciones
+                    if (i != array[1]) { // evitar la ecuación del pivote actual
+                        Double auxPivot = valoresOR.get(i).Valorx.get(array[0]);
+                        auxPivot *= -1;
+                        valoresOR.get(i).TerminoInde = (valoresOR.get(array[1]).TerminoInde * auxPivot) + valoresOR.get(i).TerminoInde;
+                        for (int j = 0; j < valoresOR.get(i).Valorx.size(); j++) {
+                            valoresOR.get(i).Valorx.set(j, (valoresOR.get(array[1]).Valorx.get(j) * auxPivot) + valoresOR.get(i).Valorx.get(j));
+                        }
+                    }
+                }
+                presentarTabla();
+                resolverSimplex();
+            }
+            break;
         }
+      
 
     }
 
-    public static void pivoteo() 
+    public static int[] pivoteo() 
     {
         double comparacion = 0d;
         int indice = 0;
+        int[] array = new int[2];
+        boolean valorVerificar = false;
+        for (int i = 0; i < valoresOR.get(0).Valorx.size(); i++) 
+        {
+            //si es menor a 0 el boolean es true para seguir resolviendo
+            if (valoresOR.get(0).Valorx.get(i) < 0) 
+            {
+                //System.out.println(valoresOR.get(0).Valorx.get(i));
+                valorVerificar = true;
+                //System.out.println(valorVerificar);
+                break;
+            }
+            valorVerificar = false;
+        }
+        if (valorVerificar==false) 
+        {
+            array[0] = 123456789; 
+            array[1] = 123456789;
+        }
         //obtener el numero negativo de la funcion objetiva
         for (int i = 0; i < valoresOR.get(0).Valorx.size(); i++) 
         {
@@ -262,7 +336,7 @@ public class MetodoSimplex {
             }
         }
 
-        double razon = 0d;
+        double razon = 100000d;
         int auxIndice = 0;
         double auxComparacion=100;
         //voy a recorrerar las restricciones con el fin de obtener el valor de la razon
@@ -272,7 +346,7 @@ public class MetodoSimplex {
             if (valoresOR.get(j).Valorx.get(indice) > 0) 
             { // solo si es positivo
                 razon = valoresOR.get(j).TerminoInde / valoresOR.get(j).Valorx.get(indice);
-                System.out.println("razón ecuación ("+"E" + j + ") es: " + razon);
+                System.out.println("razón ecuación es ("+"E" + j + ") es: " + razon);
                 if (razon < auxComparacion) 
                 {
                     auxComparacion = razon;
@@ -283,15 +357,17 @@ public class MetodoSimplex {
         }
         //si la razon es diferente de cero es xq se encontró al menos un positivo
         //en esa X 
-        if (razon != 0d) 
+        if (razon != 100000d) 
         {
             valoresOR.get(auxIndice).pivote = indice;
             System.out.println("Pivote esta en: X" + (indice + 1)+ "  en la ecuación E:(" + auxIndice + ")");
+            array[0] = indice; //posicion de columna
+            array[1] = auxIndice; //posicion de la fila de la ecuacion de restriccion
         }
         
         //cuando existe dos -3 y en el primero que se encontro todos
         //son negativos entoncs va tomar el segundo -3
-        if (razon == 0d) 
+        if (razon == 100000d) 
         {          
             double comparacion2 = 0d;
             int indice2 = 0;
@@ -327,7 +403,11 @@ public class MetodoSimplex {
                 }
                 valoresOR.get(auxIndice2).pivote = indice2;
                 System.out.println("Pivote esta en: X" + (indice2 + 1) + "  en la ecuación E:(" + auxIndice2 + ")");
-            
+            array[0] = indice2; //posicion de columna
+            array[1] = auxIndice2; //posicion de la fila de la ecuacion de restriccion
         }
+        
+            
+            return array;
     }
 }
