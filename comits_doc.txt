@@ -20,4 +20,8 @@ cuanto tenga -3 pregunto si en x2 existe al menos un positivo para sacar la razo
 comit 18/12/19
 ya resuelve ejercicios de maximizacion y minimizacion
 falta correguir pequeños errores de mensajes
-y a la funcion objetiva darle una igualdad para los casos de ejercicios que la funcion objetia tenga un numero mayor a 0
+y a la funcion objetiva darle una igualdad para los casos de ejercicios que la funcion objetia tenga un numero mayor a 0 (correguido)
+
+comit 19/12/19
+ya resuelve ejercicios de maximizacion y minimizacion
+correcion: se agrego que al ingresar numeros a la funcion objetiva tambien agrege el valor de z para el caso que en los ejercicios tambien se nos de z pueda ingresar valores

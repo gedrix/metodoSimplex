@@ -37,10 +37,10 @@ public class MetodoSimplex {
             X++;
         }
         valoresOR.add(funcionObjetiva);
-//        double terminoFO;
-//        System.out.println("termino idependiente");
-//        terminoFO = leer.nextDouble();
-//        funcionObjetiva.TerminoInde = terminoFO;
+        double terminoFO;
+        System.out.println("termino idependiente");
+        terminoFO = leer.nextDouble();
+        funcionObjetiva.TerminoInde = terminoFO;
         
         
 
@@ -102,6 +102,7 @@ public class MetodoSimplex {
             aux += "(" + valoresOR.get(0).Valorx.get(i) + ")" + " X" + X + " +";
             X = X + 1;
         }
+        aux+= valoresOR.get(0).TerminoInde;
         System.out.println(aux);
 
         System.out.println("\n las restricciones son:");
