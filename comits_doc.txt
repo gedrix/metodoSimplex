@@ -25,3 +25,6 @@ y a la funcion objetiva darle una igualdad para los casos de ejercicios que la f
 comit 19/12/19
 ya resuelve ejercicios de maximizacion y minimizacion
 correcion: se agrego que al ingresar numeros a la funcion objetiva tambien agrege el valor de z para el caso que en los ejercicios tambien se nos de z pueda ingresar valores
+
+comit2 19/12/19
+codigo correcto probado con 3 ejercicios entregados por el docente acargo de la materia

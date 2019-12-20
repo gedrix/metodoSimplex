@@ -278,21 +278,30 @@ public class MetodoSimplex {
                     division = valoresOR.get(array[1]).Valorx.get(array[0]);
                     //el termino independiente lo divido para el valor de division
                     valoresOR.get(array[1]).TerminoInde = valoresOR.get(array[1]).TerminoInde / division;
-                    //voy diviendo los valores antes del igual
+                    //voy diviendo los valores de X
                     for (int i = 0; i < valoresOR.get(array[1]).Valorx.size(); i++) 
                     {
                         valoresOR.get(array[1]).Valorx.set(i, valoresOR.get(array[1]).Valorx.get(i) / division);
                     }
                 }
-
-                for (int i = 0; i < valoresOR.size(); i++) { // recorre todas las ecuaciones
-                    if (i != array[1]) { // evitar la ecuación del pivote actual
-                        Double auxPivot = valoresOR.get(i).Valorx.get(array[0]);
-                        auxPivot *= -1;
-                        valoresOR.get(i).TerminoInde = (valoresOR.get(array[1]).TerminoInde * auxPivot) + valoresOR.get(i).TerminoInde;
-                        for (int j = 0; j < valoresOR.get(i).Valorx.size(); j++) {
-                            valoresOR.get(i).Valorx.set(j, (valoresOR.get(array[1]).Valorx.get(j) * auxPivot) + valoresOR.get(i).Valorx.get(j));
+                // se va a recorrer todas las ecuaciones para aplicar el sistema de ecuaciones
+                double auxEcuacion;
+                for (int i = 0; i < valoresOR.size(); i++) 
+                { // se eligira la ecuacion que sea diferente a la se encuentra el pivote
+                    if (i != array[1]) 
+                    { 
+                        //obtengo el valor de la columna donde se encontro el pivote
+                        auxEcuacion = valoresOR.get(i).Valorx.get(array[0]);
+                        //multiplico por -1 para para poder realizar eliminacion
+                        auxEcuacion =auxEcuacion * -1;
+                        //con el valor auxiliar multiplico en x, es decir empezamos por la posicion 0 de la 
+                        //ecuacion pivote y lo multiplicamos por el valor auxEcuacion y eso sumamos 
+                        // el valor de la posicion donde nos encontremos ecuacion 0, 
+                        for (int j = 0; j < valoresOR.get(i).Valorx.size(); j++) 
+                        {
+                            valoresOR.get(i).Valorx.set(j, (valoresOR.get(array[1]).Valorx.get(j) * auxEcuacion) + valoresOR.get(i).Valorx.get(j));
                         }
+                        valoresOR.get(i).TerminoInde = (valoresOR.get(array[1]).TerminoInde * auxEcuacion) + valoresOR.get(i).TerminoInde;
                     }
                 }
                 presentarTabla();
@@ -347,7 +356,7 @@ public class MetodoSimplex {
             if (valoresOR.get(j).Valorx.get(indice) > 0) 
             { // solo si es positivo
                 razon = valoresOR.get(j).TerminoInde / valoresOR.get(j).Valorx.get(indice);
-                System.out.println("razón ecuación es ("+"E" + j + ") es: " + razon);
+                System.out.println("la razon ecuación esta en: ("+"E" + j + ") es: " + razon);
                 if (razon < auxComparacion) 
                 {
                     auxComparacion = razon;
@@ -361,7 +370,7 @@ public class MetodoSimplex {
         if (razon != 100000d) 
         {
             valoresOR.get(auxIndice).pivote = indice;
-            System.out.println("Pivote esta en: X" + (indice + 1)+ "  en la ecuación E:(" + auxIndice + ")");
+            System.out.println("el pivote esta en: X" + (indice + 1)+ "  en la ecuación (E" + auxIndice + ")");
             array[0] = indice; //posicion de columna
             array[1] = auxIndice; //posicion de la fila de la ecuacion de restriccion
         }
@@ -394,7 +403,7 @@ public class MetodoSimplex {
                 { //indice es el valor que se obtuvo en el for de arriba
                     if (valoresOR.get(j).Valorx.get(indice2) > 0) { // solo si es positivo
                         razon2 = valoresOR.get(j).TerminoInde / valoresOR.get(j).Valorx.get(indice2);
-                        System.out.println("razón ecuación (" + "E" + j + ") es: " + razon2);
+                        System.out.println("la razon ecuación esta en: (" + "E" + j + ") es: " + razon2);
                         if (razon2 < auxComparacion2) {
                             auxComparacion2 = razon2;
                             auxIndice2 = j;
@@ -403,7 +412,7 @@ public class MetodoSimplex {
                     }
                 }
                 valoresOR.get(auxIndice2).pivote = indice2;
-                System.out.println("Pivote esta en: X" + (indice2 + 1) + "  en la ecuación E:(" + auxIndice2 + ")");
+                System.out.println("el pivote esta en: X" + (indice2 + 1) + "  en la ecuación (E" + auxIndice2 + ")");
             array[0] = indice2; //posicion de columna
             array[1] = auxIndice2; //posicion de la fila de la ecuacion de restriccion
         }
